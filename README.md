@@ -1,7 +1,9 @@
 # Marlin 3D Printer Firmware
 This Vanilla Marlin branch 2.0.4.1 is for the Bigtree Tech SKR 1.4 turbo specifically built for the Creality Ender 3 with the following hardware:-
 
-TMC 2209 stepper driver boards.
+TMC 2209 stepper driver boards UART. Without stallguard function, the diag pins for X/Y of the driver boards will need to be bent outwards so they do not enter the socket (much better than cutting them off as per the manufacturer instructions, just make sure the Y board pin does not touch anything underneath ).
+
+
 BLTouch Auto bed leveling probe enabled for the probe specific pins. Servos and Probe on the lower right of the board. Z offset 2.47 mm.
 Filament runout sensor. This is optional and can be turned off in the LCD.
 
