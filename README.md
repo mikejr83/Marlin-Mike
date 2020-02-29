@@ -14,7 +14,7 @@ Photo Gcode, TMC debug and cancel objects.
 
 There is a precompiled firmware in the root Marlin directory.
 
-
+If you find this useful, consider buying me a coffee:- https://www.patreon.com/Eviledik
 
 
 ![GitHub](https://img.shields.io/github/license/marlinfirmware/marlin.svg)
