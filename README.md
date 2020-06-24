@@ -10,6 +10,63 @@
 Additional documentation can be found at the [Marlin Home Page](https://marlinfw.org/).
 Please test this firmware and let us know if it misbehaves in any way. Volunteers are standing by!
 
+## CUSTOMIZED VERSION FOR CREALITY ENDER 3 PRO WITH SKR 1.4 Turbo
+
+This version of the Marlin 2.0 firmware has been customized with the goal of getting a "standard" setup working for an Ender 3 (Pro). The base configurations from [Marlin - Configurations](https://github.com/MarlinFirmware/Configurations), specifically the Creality Ender 3 example, were used to modify this branch with the closes possible values so that upon building and installing the firmware the printer is close to being ready for printing.
+
+_Note, while the turbo version of the SKR 1.4 is selected in this branch simple changes in `platformio.ini` and `Configuration.h` can change the board type to the standard SKR 1.4 with no other needed modifications._
+
+**PLEASE READ THROUGH THE CHANGES BELOW. I CANNOT BE RESPONSIBLE FOR DAMAGE YOU MAY DO TO YOUR PRINTER BY NOT UNDERSTANDING WHAT HAS BEEN CHANGED IN THE FIRMWARE. IF YOU DON'T CHANGE BLTOUCH SETTINGS FOR 5V MODE OR NOZZLE OFFSETS THEN YOU CAN PHYSICALLY DAMAGE YOUR SETUP IF YOUR PARAMETERS FALL OUTSIDE OF WHAT I HAVE CHANGED. THESE ARE EASY CHANGES DON'T BE FOOLED. THE HARD WORK HAS BEEN DONE FOR YOU!**
+
+### Notable Changes
+
+This branch comes from the 2.0.5.3 release/tag. Use the compare function to compare it the current Marlin 2.0.x branch or the 2.0.5.3 tag to quickly see all the changes from the stock firmware. There is a branch, _feature/ender3/base_, which is at the point where the Marlin 2.0 firmware from the 2.0.5.3 release has only the stock configuration changes for the Ender 3 from the Configurations repository. This represents essentially a base build which could be made for the SKR 1.4 Turbo with no other features such as bed leveling enabled. The _feature/ender3/enhanced_ branch are all of my changes for enabling the expanded feature set of Marlin. I suggest using it as a jumping point for any other changes. The _base_ branch needs further validation as I only used it as a place to go back to when my changes in the _enhanced_ branch didn't produce the results I was looking for.
+
+#### Configuration.h Changes
+
+* Custom Ender bootscreen is enabled!
+* Base configuration applied from [Marlin - Configurations](https://github.com/MarlinFirmware/Configurations)
+* BLTouch - Use the pins as specified in the SKR 1.4 Turbo pinout. As the author I've left my defaults in for my BLTouch probe offsets. **Please change these offsets to those THAT YOU MEASURE PHYSICALLY for best results and to prevent any nozzle/bed collisions**
+* Bilinear Bed Leveling - This works best for me. I was unhappy with configuring UBL. Customizing this part of the firmware should be easy enough once you've verified that all is well with your printer.
+* TMC2209 drivers are configured in UART mode
+* S Curve Acceleration is enabled
+* Preheat defaults have been upped - PLA: Hotend 210, Bed: 60 - ABS: Bed 70
+* Nozzle park is enabled
+* SD card support on the mainboard is enabled and set to half speed. _Two things to note. First, if you're using the BTT TFT35 V3 (either version) and want to use the SD card on the LCD you need to disable by commenting `#define SDCARD_CONNECTION ONBOARD` in `Configuration_adv.h`. Secondly, I set it to half speed when attempting to try to get the SD card working from the mainboard. This may not be necessary but since everything is working in my case I felt fine leaving it._
+* I've uncommented `REPRAP_DISCOUNT_FULL_GRAPHIC_SMART_CONTROLLER`. I don't feel like I need it to be set since I'm using EXP3 on the TFT 35 E V3 for Marlin emulation mode.
+
+#### Configuration_adv.h Changes
+
+* Quick homing
+* BLTouch 5v mode
+* Status and long filename scrolling
+* SD card support enabled for the mainboard (see note about sd card support in the `Configuration.h` section)
+* Babystepping - Double click, Z multiplication factor set to 10 for easier adjustment
+* Linear advance enabled
+* Advanced auto-pause (change filament)
+* Vref's set for based on [knoopx's research](https://gist.github.com/knoopx/e6c40a009e796203b93a75a3ed6a5ab8)
+* Motor driver status and TMC debug enabled
+* Photo gcode support (not tested)
+* Cancel objects support (not tested)
+
+### Other Helpful Tips
+
+My first SKR 1.4 Turbo board was bad. It actually took out a USB port on my desktop. Be careful when plugging in your board. I'm still having connection issues with Octoprint. It will not automatically connection. After the printer is online and Octoprint is online you may have to refresh the connection setting, manually select the serial connection, and then set the baud rate to AUTO. It will connect at 115200 but manually setting that and attempting the connection will not work.
+
+If you're having trouble connecting to Octoprint over USB make sure that the Pi or computer running Octoprint can "see" the SKR 1.4. If on an OctoPi setup then SSH into the Pi, disconnect the mainboard from USB, and then run `lsusb`. Note the devices shown. Plug in the SKR and then run `lsusb` again. You should see a new entry for the printer. If not you may have a bad SKR board as this was the issue with my first board. You can also try `sudo /sbin/udevadm monitor` while plugging in the printer and watch to see what serial connection is assigned to the printer. 
+
+### Next Steps
+
+* Serial connection from SKR or TFT35 to Pi to eliminate the need for the USB cable.
+* Fixing random LCD issues (this may have been an installation issue for me)
+* Better connection with OctoPi/Octoprint.
+
+### Special Thanks to The Following
+
+* [TeachingTech](https://www.youtube.com/channel/UCbgBDBrwsikmtoLqtpc59Bw)
+* [Chris Riley](https://www.youtube.com/channel/UCqRiv7rQuxge63bqJ2hVNUQ)
+* [The users who troubleshot the SD card issue](https://github.com/MarlinFirmware/Marlin/issues/14320)
+
 ## Marlin 2.0
 
 Marlin 2.0 takes this popular RepRap firmware to the next level by adding support for much faster 32-bit and ARM-based boards while improving support for 8-bit AVR boards. Read about Marlin's decision to use a "Hardware Abstraction Layer" below.
