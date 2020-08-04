@@ -634,7 +634,7 @@
 
 //#define HOMING_BACKOFF_POST_MM { 2, 2, 2 }  // (mm) Backoff from endstops after homing
 
-//#define QUICK_HOME                          // If G28 contains XY do a diagonal move first
+#define QUICK_HOME                          // If G28 contains XY do a diagonal move first
 //#define HOME_Y_BEFORE_X                     // If G28 contains XY home Y before X
 //#define CODEPENDENT_XY_HOMING               // If X/Y can't home without homing Y/X first
 
@@ -680,7 +680,7 @@
    * Danger: Don't activate 5V mode unless attached to a 5V-tolerant controller!
    * V3.0 or 3.1: Set default mode to 5V mode at Marlin startup.
    * If disabled, OD mode is the hard-coded default on 3.0
-   * On startup, Marlin will compare its eeprom to this vale. If the selected mode
+   * On startup, Marlin will compare its eeprom to this value. If the selected mode
    * differs, a mode set eeprom write will be completed at initialization.
    * Use the option below to force an eeprom write to a V3.1 probe regardless.
    */
@@ -1509,9 +1509,10 @@
 #endif
 
 //
-// FSMC Graphical TFT
+// FSMC / SPI Graphical TFT
 //
-#if ENABLED(FSMC_GRAPHICAL_TFT)
+#if TFT_SCALED_DOGLCD
+  //#define GRAPHICAL_TFT_ROTATE_180
   //#define TFT_MARLINUI_COLOR 0xFFFF // White
   //#define TFT_MARLINBG_COLOR 0x0000 // Black
   //#define TFT_DISABLED_COLOR 0x0003 // Almost black
@@ -1962,7 +1963,7 @@
  */
 #if EXTRUDERS > 1
   // Z raise distance for tool-change, as needed for some extruders
-  #define TOOLCHANGE_ZRAISE                 2 // (mm)
+  #define TOOLCHANGE_ZRAISE                 0 // (mm)
   //#define TOOLCHANGE_ZRAISE_BEFORE_RETRACT  // Apply raise before swap retraction (if enabled)
   //#define TOOLCHANGE_NO_RETURN              // Never return to previous position on tool-change
   #if ENABLED(TOOLCHANGE_NO_RETURN)
@@ -2213,7 +2214,7 @@
   #define INTERPOLATE       true  // Interpolate X/Y/Z_MICROSTEPS to 256
 
   #if AXIS_IS_TMC(X)
-    #define X_CURRENT       800        // (mA) RMS current. Multiply by 1.414 for peak current.
+    #define X_CURRENT       950        // (mA) RMS current. Multiply by 1.414 for peak current.
     #define X_CURRENT_HOME  X_CURRENT  // (mA) RMS current for sensorless homing
     #define X_MICROSTEPS     16    // 0..256
     #define X_RSENSE          0.11
@@ -2229,7 +2230,7 @@
   #endif
 
   #if AXIS_IS_TMC(Y)
-    #define Y_CURRENT       800
+    #define Y_CURRENT       950
     #define Y_CURRENT_HOME  Y_CURRENT
     #define Y_MICROSTEPS     16
     #define Y_RSENSE          0.11
@@ -2245,7 +2246,7 @@
   #endif
 
   #if AXIS_IS_TMC(Z)
-    #define Z_CURRENT       800
+    #define Z_CURRENT       950
     #define Z_CURRENT_HOME  Z_CURRENT
     #define Z_MICROSTEPS     16
     #define Z_RSENSE          0.11
@@ -2277,14 +2278,14 @@
   #endif
 
   #if AXIS_IS_TMC(E0)
-    #define E0_CURRENT      800
+    #define E0_CURRENT      950
     #define E0_MICROSTEPS    16
     #define E0_RSENSE         0.11
     #define E0_CHAIN_POS     -1
   #endif
 
   #if AXIS_IS_TMC(E1)
-    #define E1_CURRENT      800
+    #define E1_CURRENT      950
     #define E1_MICROSTEPS    16
     #define E1_RSENSE         0.11
     #define E1_CHAIN_POS     -1
@@ -2451,18 +2452,18 @@
    * STEALTHCHOP_(XY|Z|E) must be enabled to use HYBRID_THRESHOLD.
    * M913 X/Y/Z/E to live tune the setting
    */
-  //#define HYBRID_THRESHOLD
+  #define HYBRID_THRESHOLD
 
-  #define X_HYBRID_THRESHOLD     100  // [mm/s]
+  #define X_HYBRID_THRESHOLD     70  // [mm/s]
   #define X2_HYBRID_THRESHOLD    100
-  #define Y_HYBRID_THRESHOLD     100
+  #define Y_HYBRID_THRESHOLD     70
   #define Y2_HYBRID_THRESHOLD    100
-  #define Z_HYBRID_THRESHOLD       3
+  #define Z_HYBRID_THRESHOLD       0
   #define Z2_HYBRID_THRESHOLD      3
   #define Z3_HYBRID_THRESHOLD      3
   #define Z4_HYBRID_THRESHOLD      3
-  #define E0_HYBRID_THRESHOLD     30
-  #define E1_HYBRID_THRESHOLD     30
+  #define E0_HYBRID_THRESHOLD      0
+  #define E1_HYBRID_THRESHOLD      0
   #define E2_HYBRID_THRESHOLD     30
   #define E3_HYBRID_THRESHOLD     30
   #define E4_HYBRID_THRESHOLD     30
@@ -2531,7 +2532,7 @@
    * Enable M122 debugging command for TMC stepper drivers.
    * M122 S0/1 will enable continous reporting.
    */
-  //#define TMC_DEBUG
+  #define TMC_DEBUG
 
   /**
    * You can set your own advanced settings by filling in predefined functions.
