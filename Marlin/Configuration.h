@@ -490,9 +490,9 @@
   // If you are using a pre-configured hotend then you can use one of the value sets by uncommenting it
 
   // Creality Ender-3
-  #define DEFAULT_Kp 21.73
-  #define DEFAULT_Ki 1.54
-  #define DEFAULT_Kd 76.55
+  #define DEFAULT_Kp 27.50
+  #define DEFAULT_Ki 2.65
+  #define DEFAULT_Kd 71.23
 
   // Ultimaker
   // #define DEFAULT_Kp 22.2
@@ -988,7 +988,7 @@
  *
  * Specify a Probe position as { X, Y, Z }
  */
-#define NOZZLE_TO_PROBE_OFFSET { 48, -2, 0 }
+#define NOZZLE_TO_PROBE_OFFSET { 50.1, -4.6, 0 }
 
 // Most probes should stay away from the edges of the bed, but
 // with NOZZLE_AS_PROBE this can be negative for a wider probing area.
@@ -1124,12 +1124,12 @@
 // @section machine
 
 // The size of the print bed
-#define X_BED_SIZE 220
-#define Y_BED_SIZE 220
+#define X_BED_SIZE 235
+#define Y_BED_SIZE 235
 
 // Travel limits (mm) after homing, corresponding to endstop positions.
-#define X_MIN_POS -5
-#define Y_MIN_POS -10
+#define X_MIN_POS 0
+#define Y_MIN_POS 0
 #define Z_MIN_POS 0
 #define X_MAX_POS X_BED_SIZE
 #define Y_MAX_POS Y_BED_SIZE
@@ -2179,20 +2179,22 @@
 //
 // ADS7843/XPT2046 ADC Touchscreen such as ILI9341 2.8
 //
-//#define TOUCH_BUTTONS
-#if ENABLED(TOUCH_BUTTONS)
+//#define TOUCH_SCREEN
+#if ENABLED(TOUCH_SCREEN)
   #define BUTTON_DELAY_EDIT  50 // (ms) Button repeat delay for edit screens
   #define BUTTON_DELAY_MENU 250 // (ms) Button repeat delay for menus
 
-  #define XPT2046_X_CALIBRATION   12316
-  #define XPT2046_Y_CALIBRATION  -8981
-  #define XPT2046_X_OFFSET       -43
-  #define XPT2046_Y_OFFSET        257
+  #define TOUCH_SCREEN_CALIBRATION
+
+  //#define XPT2046_X_CALIBRATION 12316
+  //#define XPT2046_Y_CALIBRATION -8981
+  //#define XPT2046_X_OFFSET        -43
+  //#define XPT2046_Y_OFFSET        257
 #endif
 
 //
 // RepRapWorld REPRAPWORLD_KEYPAD v1.1
-// https://reprapworld.com/?products_details&products_id=202&cPath=1591_1626
+// https://reprapworld.com/products/electronics/ramps/keypad_v1_0_fully_assembled/
 //
 //#define REPRAPWORLD_KEYPAD
 //#define REPRAPWORLD_KEYPAD_MOVE_STEP 10.0 // (mm) Distance to move per key-press
