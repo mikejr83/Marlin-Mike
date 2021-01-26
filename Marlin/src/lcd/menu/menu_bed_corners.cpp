@@ -59,18 +59,26 @@ static inline void _lcd_goto_next_corner() {
   constexpr xy_pos_t lf { (X_MIN_BED) + lfrb[0], (Y_MIN_BED) + lfrb[1] },
                      rb { (X_MAX_BED) - lfrb[2], (Y_MAX_BED) - lfrb[3] };
   line_to_z(LEVEL_CORNERS_Z_HOP);
+  /*
+   * NOTE - The ordering has been changed for the JGMaker Artist-D printer.
+   * New order:
+   * 1. Center
+   * 2. Left Front
+   * 3. Right Front
+   * 4. Right Back
+   * 5. Left Back
+   */
   switch (bed_corner) {
-    case 0: current_position   = lf;   break; // copy xy
-    case 1: current_position.x = rb.x; break;
-    case 2: current_position.y = rb.y; break;
-    case 3: current_position.x = lf.x; break;
-    #if ENABLED(LEVEL_CENTER_TOO)
-      case 4: current_position.set(X_CENTER, Y_CENTER); break;
-    #endif
+    case 0: current_position.set(X_CENTER, Y_CENTER); break;
+    case 1: current_position   = lf;   break; // copy xy
+    case 2: current_position.x = rb.x; break;
+    case 3: current_position.y = rb.y; break;
+    case 4: current_position.x = lf.x; break;
   }
   line_to_current_position(manual_feedrate_mm_s.x);
   line_to_z(LEVEL_CORNERS_HEIGHT);
-  if (++bed_corner > 3 + ENABLED(LEVEL_CENTER_TOO)) bed_corner = 0;
+  // Modifying for JGMaker Artist-D so that we're always leveling the center.
+  if (++bed_corner > 4) bed_corner = 0;
 }
 
 static inline void _lcd_level_bed_corners_homing() {
